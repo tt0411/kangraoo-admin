@@ -1,0 +1,138 @@
+@import '~antd/es/style/themes/default.less';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+
+.ant-pro-basicLayout-content {
+  margin: 0
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+@media (max-width: @screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+
+    &-thead>tr,
+    &-tbody>tr {
+
+      >th,
+      >td {
+        white-space: pre;
+
+        >span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.gobal-container {
+  background: #ffffff;
+  padding: 24px;
+}
+
+.gobal-button-list {
+  margin-bottom: 20px;
+
+  button {
+    margin-right: 20px;
+  }
+}
+
+.gobal-table {
+  margin-top: 10px;
+
+  table {
+    text-align: center
+  }
+
+  .ant-table-thead>tr>th {
+    text-align: center
+  }
+}
+
+.flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  /* Safari */
+  display: flex;
+
+}
+
+.flex-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  /* Safari */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  /* Safari */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-auto {
+  flex: 1;
+  -webkit-flex: 1;
+  -webkit-box-flex: 1;
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px
+}
+
+/*定义滚动条轨道*/
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  background-color: #d7d7d7;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.spinBox {
+  width: 200px;
+  margin: 50px auto;
+  text-align: center
+}

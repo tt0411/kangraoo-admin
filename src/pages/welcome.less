@@ -1,0 +1,90 @@
+.msgDetail {
+  font-weight: bold;
+}
+
+.logBox {
+  padding: 10px;
+
+  .logItem {
+    p {
+      line-height: 28px;
+      font-size: 16px;
+      margin: 0;
+      padding: 0;
+
+      span {
+        font-weight: bold;
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+.welcomeBox {
+  padding: 24px;
+  .welcomeItem {
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    // border-top: 3px solid #3080fe;
+    .genderChart{
+      width: 100%;
+      position: absolute;
+      top: 10px;
+      left: 100px;
+      margin: 0;
+      padding:0;
+    }
+    .totalRight{
+      flex:1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  :global {
+    .ant-carousel .slick-dots-bottom {
+      bottom: -12px;
+    }
+
+    .ant-carousel .slick-dots li button {
+      background: #61affe;
+    }
+
+    .ant-carousel .slick-dots li.slick-active button {
+      background: #1890ff;
+    }
+  }
+}
+
+.welcomeLineChart {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  height: 650px;
+  .title {
+    margin-bottom: 20px;
+  }
+}
+
+.welcomeBarChart {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  height: 650px;
+  .rightContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   .title {
+    margin-bottom: 10px;
+   }
+  }
+ 
+}
