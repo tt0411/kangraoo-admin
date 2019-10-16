@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Table, Button, Avatar, Badge, Tag, Divider } from 'antd';
-import EllipsisTooltip from '@/components/EllipsisTooltip';
 import moment from 'moment';
+import EllipsisTooltip from '@/components/EllipsisTooltip';
 import CheckBox from '@/components/CheckBox';
 import Detail from './detail';
 
@@ -17,6 +17,10 @@ class Content extends Component {
   state = {
     showDetail: false,
     detailData: null,
+    commentsList: null,
+    commentsCount: 0,
+    savesCount: 0,
+    marksCount: 0,
   };
 
   componentDidMount() {
@@ -59,16 +63,48 @@ class Content extends Component {
   };
 
   onDetail = record => {
-    this.setState({
-      showDetail: true,
-      detailData: record,
+     const payload = {
+       id: record.id,
+     }
+    this.props.dispatch({
+      type: `${namespace}/changeCid`,
+      payload,
     });
+    this.props.dispatch({
+      type: `${namespace}/fetchSaveList`,
+    }).then(() => {
+      const { saveCount } = this.props[namespace];
+      this.setState({
+        savesCount: saveCount,
+      })
+    })
+    this.props.dispatch({
+      type: `${namespace}/fetchMarkList`,
+    }).then(() => {
+      const { markCount } = this.props[namespace];
+      this.setState({
+        marksCount: markCount,
+      })
+    })
+    this.props.dispatch({
+      type: `${namespace}/fetchCommentList`,
+    }).then(() => {
+        const { commentList, commentCount } = this.props[namespace];
+        this.setState({
+          showDetail: true,
+          detailData: record,
+          commentsList: commentList,
+          commentsCount: commentCount,
+        });
+      });
   };
 
   onCancelDetail = () => {
     this.setState({
       showDetail: false,
       detailData: null,
+      commentsList: null,
+      commentsCount: 0,
     });
   };
 
@@ -90,7 +126,7 @@ class Content extends Component {
       namespace
     ];
     const { dataLoading } = this.props;
-    const { showDetail, detailData } = this.state;
+    const { showDetail, detailData, commentsList, commentsCount, savesCount, marksCount } = this.state;
     // checkBox
     const searchList = [
       {
@@ -289,7 +325,7 @@ class Content extends Component {
           pagination={pagination}
           onChange={this.handleTableChange}
         />
-        {showDetail && <Detail onCancel={this.onCancelDetail} detailData={detailData} />}
+        {showDetail && <Detail onCancel={this.onCancelDetail} detailData={detailData} commentList={commentsList} commentCount={commentsCount} saveCount={savesCount} markCount={marksCount} />}
       </div>
     );
   }

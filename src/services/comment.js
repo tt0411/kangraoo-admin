@@ -10,3 +10,8 @@ export function getAllComment(params) {
 export function isStopcomment(params) {
     return Gateway.get(`${Config.Gateway}/comment/isStopcomment`, params)
 }
+
+// 根据文章id获取评论
+export function getCommentByCid(params) {
+    return Gateway.get(`${Config.Gateway}/comment/commentByCid`, params)
+}

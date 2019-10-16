@@ -2,9 +2,10 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Button, Avatar, Badge } from 'antd';
+import { Table, Button, Avatar, Badge, Icon } from 'antd';
 import moment from 'moment';
 import CheckBox from '@/components/CheckBox';
+import Config from '@/utils/config'
 
 const namespace = 'users';
 @connect(({ users, loading }) => ({
@@ -194,6 +195,8 @@ class Users extends Component {
     };
     return (
       <div className="gobal-container">
+        <Button type="primary" style={{ marginBottom: '10px' }}>
+          <Icon type="cloud-download" /><a href={Config.userExcel} title="导出用户信息" style={{ color: '#ffffff', marginLeft: '5px' }}>导出用户信息</a></Button>
         <CheckBox
           searchList={searchList}
           searchSumbit={this.searchSumbit}

@@ -47,5 +47,53 @@
     .audio{
       margin-top: 10px;
     }
-
+    .threeType{
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content:content;
+      align-items: center;
+      .mark{
+        flex: 1;
+        text-align: center;
+      }
+      .comment{
+        flex: 1;
+        text-align: center;
+      }
+      .save{
+        flex: 1;
+        text-align: center;
+      }
+    }
+    .commentAll{ margin:20px; }
+    .commentItem{
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+      .commentTop{
+        display: flex;
+        flex-direction: row;
+       .commentNameTime{
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: space-between;
+        .name{
+          font-weight: bold;
+          font-size:16px;
+          margin-left: 10px;
+        }
+        .time{
+          font-size: 12px;
+        }
+      }
+    } 
+    .commentBottom{
+      margin-top: 5px;
+      .commentContent{
+        text-indent: 10px;
+      }
+    }
+  }
 }

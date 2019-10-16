@@ -5,3 +5,8 @@ import Gateway from '@/utils/Gateway';
 export function getAllSave(params) {
     return Gateway.get(`${Config.Gateway}/save/allSave`, params)
 }
+
+// 获取文章点赞数
+export function getSaveByCid(params) {
+    return Gateway.get(`${Config.Gateway}/save/saveCountByCid`, params)
+}
