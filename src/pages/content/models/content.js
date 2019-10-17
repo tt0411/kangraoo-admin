@@ -1,4 +1,6 @@
 import { Message } from 'antd';
+import { routerRedux } from 'dva/router';
+import { stringify } from 'querystring';
 import { getAllContent } from '@/services/global';
 import { isStopContent } from '@/services/content';
 import { getCommentByCid } from '@/services/comment'
@@ -14,7 +16,9 @@ export default {
     id: null,
     commentCount: 0,
     saveCount: 0,
+    saveList: [],
     markCount: 0,
+    markList: [],
     totalNum: 0,
     searchCond: {
       page: 1,
@@ -23,6 +27,17 @@ export default {
   },
   effects: {
     *fetchList(_, { call, put, select }) {
+      if (!localStorage.getItem('userName')) {
+        yield put(
+          routerRedux.replace({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          }),
+        );
+        Message.error('未登录，请重新登录');
+      }
       const searchCond = yield select(state => state[namespace].searchCond);
       const rsp = yield call(getAllContent, searchCond);
       const { list, count } = rsp;
@@ -53,12 +68,13 @@ export default {
     *fetchSaveList(_, { call, put, select }) {
       const id = yield select(state => state[namespace].id);
       const rsp = yield call(getSaveByCid, id);
-      const { count } = rsp;
-      if (rsp) {
+      const { count, list } = rsp;
+      if (rsp && rsp.list) {
         yield put({
           type: 'changeSaveList',
           payload: {
             saveCount: count,
+            saveList: list,
           },
         });
       }
@@ -66,12 +82,13 @@ export default {
     *fetchMarkList(_, { call, put, select }) {
       const id = yield select(state => state[namespace].id);
       const rsp = yield call(getMarkByCid, id);
-      const { count } = rsp;
-      if (rsp) {
+      const { count, list } = rsp;
+      if (rsp && rsp.list) {
         yield put({
           type: 'changeMarkList',
           payload: {
             markCount: count,
+            markList: list,
           },
         });
       }
@@ -105,12 +122,14 @@ export default {
       return {
         ...state,
         saveCount: payload.saveCount,
+        saveList: payload.saveList,
       };
     },
     changeMarkList(state, { payload }) {
       return {
         ...state,
         markCount: payload.markCount,
+        markList: payload.markList,
       };
     },
     changeSearchCond(state, { payload }) {

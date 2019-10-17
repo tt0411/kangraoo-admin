@@ -4,10 +4,7 @@ import { Form, Icon, Input, Button } from 'antd';
 import Styles from './style.less'
 
 const namespace = 'login';
-@connect(({ login, loading }) => ({
-  login,
-  dataLoading: loading.effects[`${namespace}/login`],
-}))
+@connect(({ login }) => ({ login }))
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();

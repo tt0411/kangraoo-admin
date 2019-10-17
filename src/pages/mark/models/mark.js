@@ -1,16 +1,16 @@
-import { Message } from 'antd';
+import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import { stringify } from 'querystring';
-import { getAllUser } from '@/services//global'
-import { getAllComment, isStopcomment } from '@/services/comment';
+import { getAllUser } from '@/services/global'
+import { getAllmark } from '@/services/mark';
 
-const namespace = 'comment';
+const namespace = 'mark';
 export default {
   namespace,
   state: {
     dataList: [],
     totalNum: 0,
-    commentUserList: [],
+    markUserList: [],
     searchCond: {
       page: 1,
       per: 10,
@@ -27,10 +27,10 @@ export default {
             }),
           }),
         );
-        Message.error('未登录，请重新登录');
+        message.error('未登录，请重新登录');
       }
       const searchCond = yield select(state => state[namespace].searchCond);
-      const rsp = yield call(getAllComment, searchCond);
+      const rsp = yield call(getAllmark, searchCond);
       const { list, count } = rsp;
       if (rsp && rsp.list) {
         yield put({
@@ -53,20 +53,11 @@ export default {
           yield put({
             type: 'changeUserDataList',
             payload: {
-                commentUserList: list,
+                markUserList: list,
             },
           });
         }
       },
-   *isStopcomment({ payload }, { call, put }) {
-    const rsp = yield call(isStopcomment, payload);
-    if (rsp) {
-     Message.success('操作成功')
-     yield put({
-      type: 'fetchList',
-     })
-    }
-  },
   },
   reducers: {
     changeDataList(state, { payload }) {
@@ -85,7 +76,7 @@ export default {
     changeUserDataList(state, { payload }) {
         return {
           ...state,
-          commentUserList: payload.commentUserList,
+          markUserList: payload.markUserList,
         };
       },
   },

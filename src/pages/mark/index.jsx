@@ -1,4 +1,4 @@
-// eslint-disable-next-line eslint-saves/disable-enable-pair
+// eslint-disable-next-line eslint-marks/disable-enable-pair
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
@@ -8,12 +8,12 @@ import moment from 'moment';
 import EllipsisTooltip from '@/components/EllipsisTooltip';
 import CheckBox from '@/components/CheckBox';
 
-const namespace = 'save';
-@connect(({ save, loading }) => ({
-  save,
+const namespace = 'mark';
+@connect(({ mark, loading }) => ({
+  mark,
   dataLoading: loading.effects[`${namespace}/fetchList`],
 }))
-class Save extends Component {
+class Mark extends Component {
   componentDidMount() {
     this.props.dispatch({
       type: `${namespace}/fetchList`,
@@ -68,7 +68,7 @@ class Save extends Component {
       dataList,
       totalNum,
       searchCond,
-      saveUserList,
+      markUserList,
     } = this.props[namespace];
     const { dataLoading } = this.props;
     // checkBox
@@ -77,7 +77,7 @@ class Save extends Component {
         name: '',
         key: 'content',
         type: 'INPUT',
-        placeholder: '收藏内容关键字',
+        placeholder: '点赞内容关键字',
         width: '150px',
       },
       {
@@ -87,22 +87,22 @@ class Save extends Component {
         placeholder: '状态',
         width: '120px',
         options: [
-          { id: '1', name: '收藏' },
-          { id: '0', name: '取消收藏' },
+          { id: '1', name: '点赞' },
+          { id: '0', name: '取消点赞' },
         ],
       },
       {
         name: '',
         key: 'uid',
         type: 'SELECT',
-        placeholder: '收藏者',
+        placeholder: '点赞者',
         width: '150px',
-        options: saveUserList,
+        options: markUserList,
       },
     ];
     // Table
     const columns = [
-        { title: '收藏内容',
+        { title: '点赞内容',
         dataIndex: 'context',
         align: 'center',
         width: 200,
@@ -117,14 +117,14 @@ class Save extends Component {
         ),
       },
       {
-        title: '收藏者头像',
+        title: '点赞者头像',
         dataIndex: 'imgUrl',
         align: 'center',
         render: text => <Avatar src={text}/>,
       },
-      { title: '收藏者', dataIndex: 'saver_name', align: 'center' },
+      { title: '点赞者', dataIndex: 'marker_name', align: 'center' },
       {
-        title: '收藏时间',
+        title: '点赞时间',
         dataIndex: 'create_time',
         align: 'center',
         render: text => <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>,
@@ -135,9 +135,9 @@ class Save extends Component {
         // eslint-disable-next-line consistent-return
         render: text => {
           if (text === 1) {
-              return <span><Badge status="processing" />收藏</span>
+              return <span><Badge status="processing" />点赞</span>
           } if (text === 0) {
-            return <span><Badge status="default" />取消收藏</span>
+            return <span><Badge status="default" />取消点赞</span>
           }
       } },
     ];
@@ -173,4 +173,4 @@ class Save extends Component {
     );
   }
 }
-export default Save;
+export default Mark;

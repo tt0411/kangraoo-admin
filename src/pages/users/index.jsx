@@ -2,9 +2,10 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Button, Avatar, Badge, Icon } from 'antd';
+import { Table, Button, Avatar, Badge, Icon, Tag, Divider } from 'antd';
 import moment from 'moment';
 import CheckBox from '@/components/CheckBox';
+import AddUser from './addUser';
 import Config from '@/utils/config'
 
 const namespace = 'users';
@@ -13,6 +14,10 @@ const namespace = 'users';
   dataLoading: loading.effects[`${namespace}/fetchList`],
 }))
 class Users extends Component {
+  state = {
+    showAddModal: false,
+  }
+
   componentDidMount() {
     this.props.dispatch({
       type: `${namespace}/fetchList`,
@@ -71,6 +76,28 @@ class Users extends Component {
     })
   }
 
+  resetPwd = record => {
+    const payload = {
+      phone: record.phone,
+    }
+    this.props.dispatch({
+      type: `${namespace}/resetPwd`,
+      payload,
+    })
+  }
+
+  addTestUser = () => {
+      this.setState({
+        showAddModal: true,
+      })
+  }
+
+  onCancel = () => {
+    this.setState({
+      showAddModal: false,
+    })
+  }
+
   render() {
     const {
       dataList,
@@ -78,6 +105,7 @@ class Users extends Component {
       searchCond,
     } = this.props[namespace];
     const { dataLoading } = this.props;
+    const { showAddModal } = this.state
     // checkBox
     const searchList = [
       {
@@ -93,6 +121,17 @@ class Users extends Component {
         type: 'INPUT',
         placeholder: '手机号',
         width: '180px',
+      },
+      {
+        name: '',
+        key: 'type',
+        type: 'SELECT',
+        placeholder: '用户类型',
+        width: '120px',
+        options: [
+          { id: '1', name: '正常注册用户' },
+          { id: '2', name: '添加测试用户' },
+        ],
       },
       {
         name: '',
@@ -152,6 +191,18 @@ class Users extends Component {
         render: text => <span>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
+        title: '用户类型',
+        dataIndex: 'type',
+        // eslint-disable-next-line consistent-return
+        render: text => {
+          if (text === 1) {
+              return <Tag color="magenta">正常注册用户</Tag>
+          } if (text === 2) {
+              return <Tag color="#cfcfcf">添加测试用户</Tag>
+          }
+      },
+        },
+      {
         title: '状态',
         dataIndex: 'status',
         // eslint-disable-next-line consistent-return
@@ -161,7 +212,8 @@ class Users extends Component {
           } if (text === 0) {
               return <span><Badge status="default" />离线</span>
           }
-      } },
+      },
+     },
       {
         title: '是否禁用',
         dataIndex: 'flag',
@@ -177,10 +229,28 @@ class Users extends Component {
       {
         title: '操作',
         dataIndex: 'x',
-        render: (text, record) =>
-          // eslint-disable-next-line no-unused-expressions
-          <Button type="primary" ghost onClick ={() => { this.onAble(record) }}>{ record.flag === 0 ? '启用' : '禁用'}</Button>,
+        // eslint-disable-next-line consistent-return
+        render: (text, record) => {
+          if (record.type === 1) {
+             return <span>
+                 <Button type="primary"
+                  ghost onClick ={() => { this.onAble(record) }}>
+                    { record.flag === 0 ? '启用' : '禁用'}
+                  </Button>
+             </span>
+        // eslint-disable-next-line no-empty
+        } if (record.type === 2) {
+          return <span>
+          <Button type="primary"
+           ghost onClick ={() => { this.onAble(record) }}>
+             { record.flag === 0 ? '启用' : '禁用'}
+           </Button>
+           <Divider type="vertical" />
+           <Button type="primary" ghost onClick ={() => { this.resetPwd(record) }}>重置密码</Button>
+        </span>
+        }
       },
+     },
     ];
     const pagination = {
       pageSize: searchCond.per,
@@ -197,6 +267,8 @@ class Users extends Component {
       <div className="gobal-container">
         <Button type="primary" style={{ marginBottom: '10px' }}>
           <Icon type="cloud-download" /><a href={Config.userExcel} title="导出用户信息" style={{ color: '#ffffff', marginLeft: '5px' }}>导出用户信息</a></Button>
+          <Button type="primary" onClick={this.addTestUser} style={{ marginBottom: '10px', marginLeft: '10px' }}>
+          <Icon type="plus" />添加测试用户</Button>
         <CheckBox
           searchList={searchList}
           searchSumbit={this.searchSumbit}
@@ -212,6 +284,7 @@ class Users extends Component {
           pagination={pagination}
           onChange={this.handleTableChange}
         />
+        {showAddModal && (<AddUser onCancel={this.onCancel} />)}
       </div>
     );
   }

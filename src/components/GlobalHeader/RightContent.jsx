@@ -15,42 +15,25 @@ const GlobalHeaderRight = props => {
   if (theme === 'dark' && layout === 'topmenu') {
     className = `${styles.right}  ${styles.dark}`;
   }
-  const {
-    currentUser = {
-      province_name: '',
-      city_name: '',
-      county_name: '',
-    },
-  } = props;
+  // const currentUser = {
+  //     province_name: '',
+  //     city_name: '',
+  //     county_name: '',
+  // }
+
   return (
     <div className={className}>
-      {/* <Tooltip
-        title={formatMessage({
-          id: 'component.globalHeader.help',
-        })}
-      >
-        <a
-          target="_blank"
-          href="https://pro.ant.design/docs/getting-started"
-          rel="noopener noreferrer"
-          className={styles.action}
-        >
-          <Icon type="question-circle-o" />
-        </a>
-      </Tooltip> */}
-      <Tag color="#108ee9">
+      {/* <Tag color="#108ee9">
         {currentUser.province_name}
         {currentUser.city_name && `/${currentUser.city_name}`}
         {currentUser.county_name && `/${currentUser.county_name}`}
-      </Tag>
+      </Tag> */}
       <Avatar />
-      {/* <SelectLang className={styles.action} /> */}
     </div>
   );
 };
 
-export default connect(({ settings, user }) => ({
+export default connect(({ settings }) => ({
   theme: settings.navTheme,
   layout: settings.layout,
-  currentUser: user.currentUser,
 }))(GlobalHeaderRight);

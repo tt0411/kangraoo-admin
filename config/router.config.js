@@ -54,6 +54,12 @@ export default [
         icon: 'heart',
         component: './save',
       },
+      {
+        path: '/mark',
+        name: '点赞管理',
+        icon: 'star',
+        component: './mark',
+      },
     ],
   },
   {

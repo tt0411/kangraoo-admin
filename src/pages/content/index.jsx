@@ -20,7 +20,9 @@ class Content extends Component {
     commentsList: null,
     commentsCount: 0,
     savesCount: 0,
+    savesList: null,
     marksCount: 0,
+    marksList: null,
   };
 
   componentDidMount() {
@@ -73,17 +75,19 @@ class Content extends Component {
     this.props.dispatch({
       type: `${namespace}/fetchSaveList`,
     }).then(() => {
-      const { saveCount } = this.props[namespace];
+      const { saveCount, saveList } = this.props[namespace];
       this.setState({
         savesCount: saveCount,
+        savesList: saveList,
       })
     })
     this.props.dispatch({
       type: `${namespace}/fetchMarkList`,
     }).then(() => {
-      const { markCount } = this.props[namespace];
+      const { markCount, markList } = this.props[namespace];
       this.setState({
         marksCount: markCount,
+        marksList: markList,
       })
     })
     this.props.dispatch({
@@ -126,7 +130,8 @@ class Content extends Component {
       namespace
     ];
     const { dataLoading } = this.props;
-    const { showDetail, detailData, commentsList, commentsCount, savesCount, marksCount } = this.state;
+    // eslint-disable-next-line max-len
+    const { showDetail, detailData, commentsList, commentsCount, savesCount, marksCount, savesList, marksList } = this.state;
     // checkBox
     const searchList = [
       {
@@ -325,7 +330,9 @@ class Content extends Component {
           pagination={pagination}
           onChange={this.handleTableChange}
         />
-        {showDetail && <Detail onCancel={this.onCancelDetail} detailData={detailData} commentList={commentsList} commentCount={commentsCount} saveCount={savesCount} markCount={marksCount} />}
+        {showDetail && <Detail onCancel={this.onCancelDetail} detailData={detailData}
+        commentList={commentsList} commentCount={commentsCount} saveCount={savesCount}
+         markCount={marksCount} markList={marksList} saveList={savesList} />}
       </div>
     );
   }

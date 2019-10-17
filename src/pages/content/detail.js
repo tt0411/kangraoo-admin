@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Modal, Avatar, Icon, Empty } from 'antd';
+import { Row, Col, Modal, Avatar, Icon, Empty, Tabs } from 'antd';
 import moment from 'moment';
 import { Player } from 'video-react';
 import ReactAudioPlayer from 'react-audio-player';
@@ -7,8 +7,10 @@ import ImageView from '@/components/ImageView';
 import Styles from './style.less';
 import 'video-react/dist/video-react.css';
 
+const { TabPane } = Tabs;
 export default function Detail(props) {
-  const { detailData, onCancel, commentList, commentCount, saveCount, markCount } = props;
+  const { detailData, onCancel, commentList, commentCount, saveCount, markCount,
+    saveList, markList } = props;
   const imgList = detailData.img;
   const { video } = detailData;
   const { audio } = detailData;
@@ -89,39 +91,102 @@ export default function Detail(props) {
           }
         </div>
         <div className={Styles.threeType}>
-            <div className={Styles.mark}>
-            <Icon type="heart" /> 点赞 {markCount}次
-            </div>
-            <div className={Styles.comment}>
-            <Icon type="message" /> 评论 {commentCount}条
-            </div>
-            <div className={Styles.save}>
-            <Icon type="star" /> 收藏 {saveCount}次
-            </div>
-        </div>
-        <div className={Styles.commentList}>
-          <div className={Styles.commentAll}>全部评论</div>
-          { commentCount > 0 ? commentList.map(item =>
-              <div className={Styles.commentItem}>
-             <div className={Styles.commentTop}>
-               <div className={Styles.commentAvter}>
-                 <Avatar src={item.imgUrl} size="default"/>
-               </div>
-               <div className={Styles.commentNameTime}>
-                   <div className={Styles.name}>{item.comment_name}</div>
-                   <div className={Styles.time}>评论时间: {moment(item.create_time).format('YYYY-MM-DD HH:mm:ss')}</div>
-               </div>
-             </div>
-             <div className={Styles.commentBottom}>
-             <div className={Styles.commentContent}>
-             {item.content}
-             </div>
-             </div>
-           </div>,
-          ) : (
-            <Empty />
-          )
-          }
+             <Tabs defaultActiveKey="2" style={{ width: '100%', textAlign: 'center' }}>
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="heart" />
+                    点赞 {markCount}次
+                  </span>
+                }
+                key="1"
+              >
+               <div className={Styles.commentList}>
+                <div className={Styles.commentAll}>全部点赞</div>
+                { markCount > 0 ? markList.map(item =>
+                    <div className={Styles.commentItem}>
+                  <div className={Styles.commentTop}>
+                    <div className={Styles.commentAvter}>
+                      <Avatar src={item.imgUrl} size="default"/>
+                    </div>
+                    <div className={Styles.commentNameTime}>
+                        <div className={Styles.name}>{item.marker_name}</div>
+                        <div className={Styles.time}>点赞时间: {moment(item.updatetime).format('YYYY-MM-DD HH:mm:ss')}</div>
+                    </div>
+                  </div>
+                  <div className={Styles.commentBottom}></div>
+                </div>,
+                ) : (
+                  <Empty />
+                )
+                }
+              </div>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="message" />
+                    评论 {commentCount}条
+                  </span>
+                }
+                key="2"
+              >
+                <div className={Styles.commentList}>
+                <div className={Styles.commentAll}>全部评论</div>
+                { commentCount > 0 ? commentList.map(item =>
+                    <div className={Styles.commentItem}>
+                  <div className={Styles.commentTop}>
+                    <div className={Styles.commentAvter}>
+                      <Avatar src={item.imgUrl} size="default"/>
+                    </div>
+                    <div className={Styles.commentNameTime}>
+                        <div className={Styles.name}>{item.comment_name}</div>
+                        <div className={Styles.time}>评论时间: {moment(item.create_time).format('YYYY-MM-DD HH:mm:ss')}</div>
+                    </div>
+                  </div>
+                  <div className={Styles.commentBottom}>
+                  <div className={Styles.commentContent}>
+                  {item.content}
+                  </div>
+                  </div>
+                </div>,
+                ) : (
+                  <Empty />
+                )
+                }
+              </div>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="star" />
+                    收藏 {saveCount}次
+                  </span>
+                }
+                key="3"
+              >
+                <div className={Styles.commentList}>
+                <div className={Styles.commentAll}>全部收藏</div>
+                { saveCount > 0 ? saveList.map(item =>
+                    <div className={Styles.commentItem}>
+                  <div className={Styles.commentTop}>
+                    <div className={Styles.commentAvter}>
+                      <Avatar src={item.imgUrl} size="default"/>
+                    </div>
+                    <div className={Styles.commentNameTime}>
+                        <div className={Styles.name}>{item.saver_name}</div>
+                        <div className={Styles.time}>收藏时间: {moment(item.create_time).format('YYYY-MM-DD HH:mm:ss')}</div>
+                    </div>
+                  </div>
+                  <div className={Styles.commentBottom}></div>
+                </div>,
+                ) : (
+                  <Empty />
+                )
+                }
+              </div>
+              </TabPane>
+            </Tabs>,
         </div>
       </div>
     </Modal>

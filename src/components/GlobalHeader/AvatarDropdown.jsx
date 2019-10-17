@@ -1,19 +1,16 @@
 import { Avatar, Icon, Menu, Spin } from 'antd';
 import { FormattedMessage } from 'umi-plugin-react/locale';
 import React from 'react';
-import { connect } from 'dva'
 import router from 'umi/router';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
-const namespace = 'login';
-@connect(({ login }) => ({ login }))
 class AvatarDropdown extends React.Component {
   onMenuClick = event => {
     const { key } = event;
 
     if (key === 'logout') {
-       this.props.dispatch({ type: `${namespace}/logout` })
+      localStorage.removeItem('userName');
     }
 
     router.push('/user/login');

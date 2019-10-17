@@ -1,3 +1,6 @@
+import { message } from 'antd';
+import { routerRedux } from 'dva/router';
+import { stringify } from 'querystring';
 import { getAllUser, getTodayContent, getAllContent, getSevenDayAddUser, getTodayActiveUser, getGenderRate, getLivedRate, getTodayContentRate, getTodayContentTypeRate } from '@/services/global'
 
 const GlobalModel = {
@@ -20,6 +23,17 @@ const GlobalModel = {
   },
   effects: {
     *fetchWelcome(_, { call, put, all }) {
+      if (!localStorage.getItem('userName')) {
+        yield put(
+          routerRedux.replace({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          }),
+        );
+        message.error('未登录，请重新登录');
+      }
       const conf = {
         per: 8,
         page: 1,

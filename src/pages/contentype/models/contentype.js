@@ -1,5 +1,7 @@
-import { getAllContentTypes, isdeleteContentType } from '@/services/contentype'
 import { Message } from 'antd'
+import { routerRedux } from 'dva/router';
+import { stringify } from 'querystring';
+import { getAllContentTypes, isdeleteContentType } from '@/services/contentype'
 
 const namespace = 'contentype';
 export default {
@@ -14,6 +16,17 @@ export default {
   },
   effects: {
     *fetchList(_, { call, put, select }) {
+      if (!localStorage.getItem('userName')) {
+        yield put(
+          routerRedux.replace({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          }),
+        );
+        Message.error('未登录，请重新登录');
+      }
       const searchCond = yield select(state => state[namespace].searchCond);
       const rsp = yield call(getAllContentTypes, searchCond);
       const { list, count } = rsp;

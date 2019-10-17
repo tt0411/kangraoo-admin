@@ -1,3 +1,6 @@
+import { message } from 'antd';
+import { routerRedux } from 'dva/router';
+import { stringify } from 'querystring';
 import { getAllUser } from '@/services/global'
 import { getAllSave } from '@/services/save';
 
@@ -15,6 +18,17 @@ export default {
   },
   effects: {
     *fetchList(_, { call, put, select }) {
+      if (!localStorage.getItem('userName')) {
+        yield put(
+          routerRedux.replace({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          }),
+        );
+        message.error('未登录，请重新登录');
+      }
       const searchCond = yield select(state => state[namespace].searchCond);
       const rsp = yield call(getAllSave, searchCond);
       const { list, count } = rsp;
