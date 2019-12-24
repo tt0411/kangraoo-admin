@@ -24,6 +24,7 @@ export default {
       page: 1,
       per: 10,
     },
+    isShow: true,
   },
   effects: {
     *fetchList(_, { call, put, select }) {
@@ -98,6 +99,10 @@ export default {
     if (rsp) {
      Message.success('操作成功')
      yield put({
+       type: 'changeIsShow',
+       payload: false
+     })
+     yield put({
       type: 'fetchList',
      })
     }
@@ -144,5 +149,11 @@ export default {
         id: payload,
       };
     },
+    changeIsShow(state, { payload }) {
+      return {
+        ...state,
+        isShow: payload,
+      }
+    }
   },
 };

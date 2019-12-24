@@ -83,8 +83,8 @@ export default function LiveChart(props) {
               htmlTemplate={(text, item) => {
                 const isFemale = item.point.status === '离线';
                 const src = isFemale
-                  ? 'http://pyku15h15.bkt.clouddn.com/rest.png'
-                  : 'http://pyku15h15.bkt.clouddn.com/live.png';
+                ? 'https://i.loli.net/2019/12/24/N879lFBoJCES4zR.png'
+                : 'https://i.loli.net/2019/12/24/9fBJcjSlGaETygY.png';
                 const color = isFemale ? COLORS[1] : COLORS[0];
                 const IMG = `<img style="width:20px" src="${src}" /><br/>`;
                 return `<div style="text-align:center;color:${color}">${IMG}${(

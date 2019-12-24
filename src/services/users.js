@@ -12,6 +12,6 @@ export function resetPwd(data) {
 }
 
 // 添加测试用户
-export function addTestUser(data) {
-  return Gateway.post(`${Config.Gateway}/user/addTestUser`, data)
+export function addTestUser(params) {
+  return Gateway.get(`${Config.Gateway}/user/addTestUser`, params)
 }

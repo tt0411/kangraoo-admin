@@ -10,7 +10,7 @@ class AddUserForm extends Component {
         e.preventDefault();
            this.props.form.validateFields((err, fieldsValue) => {
            if (!err) {
-               const payload = Object.assign(fieldsValue, { imgUrl: 'http://pyku15h15.bkt.clouddn.com/testuser.png' })
+               const payload = Object.assign(fieldsValue, { imgUrl: 'https://i.loli.net/2019/12/24/xDIlgRtZfTqpmXJ.png' })
                this.props.dispatch({
                    type: `${namespace}/addTestUser`,
                    payload,

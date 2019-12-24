@@ -1,5 +1,6 @@
-import React from 'react';
-import { Row, Col, Modal, Avatar, Icon, Empty, Tabs } from 'antd';
+import React, { Component } from 'react';
+import { Row, Col, Modal, Avatar, Icon, Empty, Tabs, Radio, Input, message, Button } from 'antd';
+import { connect } from 'dva';
 import moment from 'moment';
 import { Player } from 'video-react';
 import ReactAudioPlayer from 'react-audio-player';
@@ -8,12 +9,55 @@ import Styles from './style.less';
 import 'video-react/dist/video-react.css';
 
 const { TabPane } = Tabs;
-export default function Detail(props) {
-  const { detailData, onCancel, commentList, commentCount, saveCount, markCount,
-    saveList, markList } = props;
-  const imgList = detailData.img;
-  const { video } = detailData;
-  const { audio } = detailData;
+const { TextArea } = Input;
+@connect(({ content }) => ({ content }))
+export default class Detail extends Component {
+  state = {
+     remarkValue: '',
+     radioValue: this.props.detailData.flag,
+   }
+  onRemarkChange = ({ target: { value } }) => {
+    this.setState({ remarkValue: value })
+  }
+  onRadioChange = ({ target: { value } })  => {
+    this.setState({ radioValue: value })
+  }
+
+  submitCheck = () => {
+    const { radioValue, remarkValue } = this.state;
+    if(radioValue === 0) {
+      message.warning('请选择审核意见')
+      return
+    }
+    const payload = {
+      id: this.props.detailData.id,
+      flag: radioValue,
+      remark: remarkValue
+    }
+    this.props.dispatch({
+      type: 'content/isStopContent',
+      payload,
+    })
+  }
+
+  render() {
+    const { detailData, onCancel, commentList, commentCount, saveCount, markCount, saveList, markList } = this.props;
+    const imgList = detailData.img;
+    const { video } = detailData;
+    const { audio } = detailData;
+    let footerObj = null
+    let readOnly = false
+    if((detailData.flag === 1 && detailData.status === 1) || (detailData.flag === 2 && detailData.status === 1) || detailData.status === 0 || detailData.status === 2) {
+      footerObj = null
+      readOnly = true
+    }else {
+      footerObj = [
+        <Button onClick={onCancel}>取消</Button>,
+        <Button type="primary" onClick={this.submitCheck.bind(this)}>确认提交审核</Button>
+      ]
+      readOnly = false
+    }
+
   return (
     <Modal
       visible
@@ -21,7 +65,7 @@ export default function Detail(props) {
       onCancel={onCancel}
       width="700px"
       maskClosable={false}
-      footer={false}
+      footer={footerObj}
     >
       <div className={Styles.contentBox}>
         <div className={Styles.user}>
@@ -35,12 +79,6 @@ export default function Detail(props) {
             </div>
             <div className={Styles.right}>
               <div>所属主题: {detailData.name}</div>
-              <div className={Styles.mood}>
-            发表时心情:&nbsp;&nbsp;
-            { detailData.mood === 0 ? (<Avatar size="small" src="http://pyku15h15.bkt.clouddn.com/sad.png"/>) : null}
-            { detailData.mood === 1 ? (<Avatar size="small" src="http://pyku15h15.bkt.clouddn.com/normal.png"/>) : null}
-            { detailData.mood === 2 ? (<Avatar size="small" src="http://pyku15h15.bkt.clouddn.com/happy.png"/>) : null}
-          </div>
           </div>
           </div>
         </div>
@@ -110,7 +148,7 @@ export default function Detail(props) {
                       <Avatar src={item.imgUrl} size="default"/>
                     </div>
                     <div className={Styles.commentNameTime}>
-                        <div className={Styles.name}>{item.marker_name}</div>
+                        <div className={Styles.name}>{item.nickName}</div>
                         <div className={Styles.time}>点赞时间: {moment(item.updatetime).format('YYYY-MM-DD HH:mm:ss')}</div>
                     </div>
                   </div>
@@ -140,13 +178,13 @@ export default function Detail(props) {
                       <Avatar src={item.imgUrl} size="default"/>
                     </div>
                     <div className={Styles.commentNameTime}>
-                        <div className={Styles.name}>{item.comment_name}</div>
+                        <div className={Styles.name}>{item.nickName}</div>
                         <div className={Styles.time}>评论时间: {moment(item.create_time).format('YYYY-MM-DD HH:mm:ss')}</div>
                     </div>
                   </div>
                   <div className={Styles.commentBottom}>
                   <div className={Styles.commentContent}>
-                  {item.content}
+                  {item.comment}
                   </div>
                   </div>
                 </div>,
@@ -174,7 +212,7 @@ export default function Detail(props) {
                       <Avatar src={item.imgUrl} size="default"/>
                     </div>
                     <div className={Styles.commentNameTime}>
-                        <div className={Styles.name}>{item.saver_name}</div>
+                        <div className={Styles.name}>{item.nickName}</div>
                         <div className={Styles.time}>收藏时间: {moment(item.create_time).format('YYYY-MM-DD HH:mm:ss')}</div>
                     </div>
                   </div>
@@ -188,7 +226,32 @@ export default function Detail(props) {
               </TabPane>
             </Tabs>,
         </div>
+        {  detailData.status !== 0  ?
+          <div className={Styles.check} >
+          <div className={Styles.checkRadio}>
+            <div className={Styles.label}>审核意见: </div>
+            <div className={Styles.radio}>
+            <Radio.Group disabled={readOnly} onChange={this.onRadioChange} value={this.state.radioValue}>
+              <Radio value={1}>审核通过</Radio>
+              <Radio value={2}>审核不通过</Radio>
+            </Radio.Group>
+            </div>
+          </div>
+          <div className={Styles.remark}>
+              <div className={Styles.label}>备注: </div>
+              <div className={Styles.remarkContent}>
+              <TextArea
+                readOnly={readOnly}
+                value={this.state.remarkValue}
+                onChange={this.onRemarkChange}
+                autosize={{ minRows: 3, maxRows: 5 }}
+              />
+              </div>
+          </div>
+        </div> : null
+        }
       </div>
     </Modal>
   );
+}
 }

@@ -67,14 +67,20 @@
         text-align: center;
       }
     }
+    .commentList {
+      max-height: 300px;
+      overflow-y: auto;
     .commentAll{
        margin:20px;
        text-align: left;
+       max-height: 200px;
+       overflow-y: auto;
      }
     .commentItem{
       display: flex;
       flex-direction: column;
       margin: 10px 0;
+      
       .commentTop{
         display: flex;
         flex-direction: row;
@@ -102,4 +108,27 @@
       }
     }
   }
+ }
+ .check {
+   border-top: 1px solid #eee;
+   padding-top: 10px;
+   .checkRadio { 
+     display: flex;
+    .label {
+     margin-right: 30px;
+     font-weight: 600;
+    }
+   }
+   .remark {
+     display: flex;
+     margin-top: 20px;
+     .label {
+      margin-right: 30px;
+      font-weight: 600;
+     }
+     .remarkContent {
+       width: 90%;
+     }
+   }
+ }
 }

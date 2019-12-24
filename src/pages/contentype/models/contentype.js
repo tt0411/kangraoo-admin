@@ -1,7 +1,7 @@
 import { Message } from 'antd'
 import { routerRedux } from 'dva/router';
 import { stringify } from 'querystring';
-import { getAllContentTypes, isdeleteContentType } from '@/services/contentype'
+import { getAllContentTypes, checkContentType } from '@/services/contentype'
 
 const namespace = 'contentype';
 export default {
@@ -13,6 +13,7 @@ export default {
       page: 1,
       per: 10,
     },
+    isShow: true,
   },
   effects: {
     *fetchList(_, { call, put, select }) {
@@ -41,9 +42,13 @@ export default {
       }
     },
     *changeContenTypeStatus({ payload }, { call, put }) {
-      const rsp = yield call(isdeleteContentType, payload);
+      const rsp = yield call(checkContentType, payload);
       if (rsp) {
        Message.success('操作成功')
+       yield put({
+         type: 'changeIsShow',
+         payload: false
+       })
        yield put({
         type: 'fetchList',
        })
@@ -56,13 +61,19 @@ export default {
         ...state,
         dataList: payload.dataList,
         totalNum: payload.totalNum,
-      };
+      }
     },
     changeSearchCond(state, { payload }) {
       return {
         ...state,
         searchCond: payload,
-      };
+      }
     },
-  },
-};
+    changeIsShow(state, { payload }) {
+      return {
+        ...state,
+        isShow: payload
+      }
+    }
+  }
+}

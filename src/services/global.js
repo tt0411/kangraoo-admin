@@ -39,5 +39,5 @@ export function getTodayContentRate() {
 }
 // 获取今日主题增量比
 export function getTodayContentTypeRate() {
-  return Gateway.get(`${Config.Gateway}/contentType/todayContentType`)
+  return Gateway.get(`${Config.Gateway}/theme/todayTheme`)
 }

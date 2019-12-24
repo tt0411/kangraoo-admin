@@ -16,7 +16,7 @@ const Model = {
         } else {
             message.error(rsp.msg)
         }
-      },
-    },
+      }
+    }
   }
 export default Model;

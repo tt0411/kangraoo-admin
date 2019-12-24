@@ -2,9 +2,10 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Table, Button, Badge, Avatar } from 'antd';
+import { Table, Button, Badge, Avatar, Tag } from 'antd';
 import moment from 'moment';
 import CheckBox from '@/components/CheckBox';
+import Detail from './detail'
 
 const namespace = 'contentype';
 @connect(({ contentype, loading }) => ({
@@ -12,6 +13,11 @@ const namespace = 'contentype';
   dataLoading: loading.effects[`${namespace}/fetchList`],
 }))
 class Contentype extends Component {
+    state = {
+       detailData: null,
+       isShowBox: false
+    }
+
   componentDidMount() {
     this.props.dispatch({
       type: `${namespace}/fetchList`,
@@ -57,26 +63,34 @@ class Contentype extends Component {
     });
   };
 
-  onAble = record => {
-    // eslint-disable-next-line no-unused-expressions
-    record.status === 2 ? record.status = 1 : record.status = 2;
-    const payload = {
-      id: record.id,
-      status: record.status,
-    }
-    this.props.dispatch({
-      type: `${namespace}/changeContenTypeStatus`,
-      payload,
-    })
+  // onAble = record => {
+  //   // eslint-disable-next-line no-unused-expressions
+  //   record.status === 2 ? record.status = 1 : record.status = 2;
+  //   const payload = {
+  //     id: record.id,
+  //     status: record.status,
+  //   }
+  //   this.props.dispatch({
+  //     type: `${namespace}/changeContenTypeStatus`,
+  //     payload,
+  //   })
+  // }
+
+  toCheck = record => {
+    this.setState({ isShowBox: true})
+    this.setState({detailData: record}) 
+  }
+
+  onCancel = () => {
+   this.setState({
+        isShowBox: false
+   })
   }
 
   render() {
-    const {
-      dataList,
-      totalNum,
-      searchCond,
-    } = this.props[namespace];
-    const { dataLoading } = this.props;
+    const { dataList, totalNum, searchCond, isShow } = this.props[namespace]
+    const { detailData, isShowBox } = this.state
+    const { dataLoading } = this.props
     // checkBox
     const searchList = [
       {
@@ -90,12 +104,24 @@ class Contentype extends Component {
         name: '',
         key: 'status',
         type: 'SELECT',
-        placeholder: '状态',
-        width: '150px',
+        placeholder: '公开状态',
+        width: '120px',
         options: [
-          { id: '0', name: '用户已删除' },
-          { id: '1', name: '正常' },
-          { id: '2', name: '被封禁' },
+          { id: '0', name: '不公开' },
+          { id: '1', name: '公开' },
+          { id: '2', name: '用户删除' },
+        ],
+      },
+      {
+        name: '',
+        key: 'flag',
+        type: 'SELECT',
+        placeholder: '审核状态',
+        width: '120px',
+        options: [
+          { id: '0', name: '待审核' },
+          { id: '1', name: '审核通过' },
+          { id: '2', name: '审核不通过' },
         ],
       },
     ];
@@ -110,12 +136,6 @@ class Contentype extends Component {
       },
       { title: '用户', dataIndex: 'nickName', align: 'center' },
       {
-        title: '背景颜色',
-        dataIndex: 'bgcolor',
-        align: 'center',
-        render: text => <span style={{ backgroundColor: text, padding: '10px', color: '#fff' }}>{text}</span>,
-      },
-      {
         title: '创建时间',
         dataIndex: 'create_time',
         align: 'center',
@@ -128,30 +148,37 @@ class Contentype extends Component {
       },
       {
         title: '状态',
-        dataIndex: 'status',
-        // eslint-disable-next-line consistent-return
-        render: text => {
-          if (text === 1) {
-              return <span><Badge status="processing" />正常</span>
-          } if (text === 0) {
-              return <span><Badge status="error" />用户已删除</span>
-          } if (text === 2) {
-            return <span><Badge status="default" />主题违规被封禁</span>
-          }
-      } },
+        dataIndex: 'x1',
+        align: 'center',
+        render: (text, record) => {
+          if (record.flag === 0 && record.status === 1) {
+            return <span><Tag color="#87d068">待审核</Tag></span>
+        } if (record.status === 2) {
+            return <span><Tag color="#cfcfcf">用户已删除</Tag></span>
+        } if (record.flag === 3 && record.status === 0) {
+          return <span><Tag color="#666666">不公开</Tag></span>
+        } if (record.flag === 1 && record.status === 1) {
+          return <span><Tag color="#2db7f5">审核通过</Tag></span>
+         }if (record.flag === 2 && record.status === 1) {
+          return <span><Tag color="#f50">审核不通过</Tag></span>
+         }
+        }
+      },
       {
         title: '操作',
         dataIndex: 'x',
-        // eslint-disable-next-line consistent-return
         render: (text, record) => {
-          // eslint-disable-next-line no-unused-expressions
-          if (record.status === 2) {
-            return <Button type="primary" ghost onClick ={() => { this.onAble(record) }}>恢复</Button>
-          } if (record.status === 1) {
-            return <Button type="primary" ghost onClick ={() => { this.onAble(record) }}>封禁</Button>
+          if(record.status === 1 && record.flag === 0) {
+            return <Button type="primary" ghost onClick={() => { this.toCheck(record) }}> 去审核 </Button>
           }
-        },
-      },
+          if((record.status === 1 && record.flag === 1) || (record.status === 1 && record.flag === 2) ) {
+            return <span>已审核</span>
+          }
+          if(record.status === 0) {
+            return <span>无需审核</span>
+          }
+        }
+      }
     ];
     const pagination = {
       pageSize: searchCond.per,
@@ -181,6 +208,7 @@ class Contentype extends Component {
           pagination={pagination}
           onChange={this.handleTableChange}
         />
+        {(isShow && isShowBox) && <Detail detailData={detailData} onCancel={this.onCancel}/>}
       </div>
     );
   }

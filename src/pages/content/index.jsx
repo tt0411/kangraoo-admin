@@ -112,27 +112,10 @@ class Content extends Component {
     });
   };
 
-  onAble = record => {
-    // eslint-disable-next-line no-unused-expressions
-    record.flag === 1 ? record.flag = 2 : record.flag = 1;
-    const payload = {
-      id: record.id,
-      flag: record.flag,
-    }
-    this.props.dispatch({
-      type: `${namespace}/isStopContent`,
-      payload,
-    })
-  }
-
   render() {
-    const { dataList, totalNum, searchCond } = this.props[
-      namespace
-    ];
+    const { dataList, totalNum, searchCond, isShow } = this.props[namespace]
     const { dataLoading } = this.props;
-    // eslint-disable-next-line max-len
     const { showDetail, detailData, commentsList, commentsCount, savesCount, marksCount, savesList, marksList } = this.state;
-    // checkBox
     const searchList = [
       {
         name: '',
@@ -150,30 +133,6 @@ class Content extends Component {
       },
       {
         name: '',
-        key: 'mood',
-        type: 'SELECT',
-        placeholder: '心情',
-        width: '120px',
-        options: [
-          { id: '0', name: '难过' },
-          { id: '1', name: '一般' },
-          { id: '2', name: '开心' },
-        ],
-      },
-      {
-        name: '',
-        key: 'flag',
-        type: 'SELECT',
-        placeholder: '状态',
-        width: '120px',
-        options: [
-          { id: '1', name: '正常' },
-          { id: '0', name: '用户已删除' },
-          { id: '2', name: '被封禁' },
-        ],
-      },
-      {
-        name: '',
         key: 'status',
         type: 'SELECT',
         placeholder: '公开状态',
@@ -181,6 +140,19 @@ class Content extends Component {
         options: [
           { id: '0', name: '不公开' },
           { id: '1', name: '公开' },
+          { id: '2', name: '用户删除' },
+        ],
+      },
+      {
+        name: '',
+        key: 'flag',
+        type: 'SELECT',
+        placeholder: '审核状态',
+        width: '120px',
+        options: [
+          { id: '0', name: '待审核' },
+          { id: '1', name: '审核通过' },
+          { id: '2', name: '审核不通过' },
         ],
       },
     ];
@@ -197,33 +169,16 @@ class Content extends Component {
       { title: '内容',
         dataIndex: 'context',
         align: 'center',
-        width: 200,
+        width: 400,
         onCell: () => ({
             style: {
               whiteSpace: 'nowrap',
-              maxWidth: 200,
+              maxWidth: 400,
             },
           }),
         render: text => (
           <EllipsisTooltip title={text}>{text}</EllipsisTooltip>
         ),
-      },
-      {
-        title: '发表心情',
-        dataIndex: 'mood',
-        align: 'center',
-        // eslint-disable-next-line consistent-return
-        render: text => {
-          if (text === 0) {
-            return <Avatar src="http://pyku15h15.bkt.clouddn.com/sad.png"/>
-          // eslint-disable-next-line no-empty
-          } if (text === 1) {
-            return <Avatar src="http://pyku15h15.bkt.clouddn.com/normal.png"/>
-          // eslint-disable-next-line no-empty
-          } if (text === 2) {
-            return <Avatar src="http://pyku15h15.bkt.clouddn.com/happy.png"/>
-          }
-        },
       },
       {
         title: '发表时间',
@@ -233,75 +188,30 @@ class Content extends Component {
       },
       {
         title: '状态',
-        dataIndex: 'flag',
+        dataIndex: 'x1',
         align: 'center',
-        // eslint-disable-next-line consistent-return
-        render: text => {
-          if (text === 1) {
-            return <span><Badge status="processing" />正常</span>
-        } if (text === 0) {
-            return <span><Badge status="error" />用户已删除</span>
-        } if (text === 2) {
-          return <span><Badge status="default" />内容违规被封禁</span>
+        render: (text, record) => {
+          if (record.flag === 0 && record.status === 1) {
+            return <span><Tag color="#87d068">待审核</Tag></span>
+        } if (record.status === 2) {
+            return <span><Tag color="#cfcfcf">用户已删除</Tag></span>
+        } if (record.flag === 3 && record.status === 0) {
+          return <span><Tag color="#666666">不公开</Tag></span>
+        } if (record.flag === 1 && record.status === 1) {
+          return <span><Tag color="#2db7f5">审核通过</Tag></span>
+         }if (record.flag === 2 && record.status === 1) {
+          return <span><Tag color="#f50">审核不通过</Tag></span>
+         }
         }
-        },
-      },
-      {
-        title: '公开状态',
-        dataIndex: 'status',
-        align: 'center',
-        render: text => (
-          <span>{text === 1 ? <Tag color="magenta">公开</Tag> : <Tag color="#cfcfcf">不公开</Tag>}</span>
-        ),
       },
       {
         title: '操作',
         dataIndex: 'x',
-        // eslint-disable-next-line consistent-return
         render: (text, record) => {
-         // eslint-disable-next-line no-unused-expressions
-          if (record.flag === 1) {
-            return <span>
-            <Button
-              type="primary"
-              ghost
-              onClick={() => {
-                this.onDetail(record);
-              }}
-            >
-              查看
-           </Button>
-           <Divider type="vertical" />
-          <Button type="primary" ghost onClick ={() => { this.onAble(record) }}>封禁</Button></span>
-          } if (record.flag === 2) {
-            return <span>
-            <Button
-              type="primary"
-              ghost
-              onClick={() => {
-                this.onDetail(record);
-              }}
-            >
-              查看
-           </Button>
-           <Divider type="vertical" />
-          <Button type="primary" ghost onClick ={() => { this.onAble(record) }}>恢复</Button></span>
-          } if (record.flag === 0) {
-            return <span>
-            <Button
-              type="primary"
-              ghost
-              onClick={() => {
-                this.onDetail(record);
-              }}
-            >
-              查看
-           </Button>
-          </span>
-          }
-        },
-      },
-    ];
+         return  <Button type="primary" ghost onClick={() => { this.onDetail(record) }}> 查看 </Button>
+        }
+      }
+    ]
     const pagination = {
       pageSize: searchCond.per,
       total: totalNum,
@@ -330,7 +240,7 @@ class Content extends Component {
           pagination={pagination}
           onChange={this.handleTableChange}
         />
-        {showDetail && <Detail onCancel={this.onCancelDetail} detailData={detailData}
+        {(showDetail && isShow)  && <Detail onCancel={this.onCancelDetail} detailData={detailData}
         commentList={commentsList} commentCount={commentsCount} saveCount={savesCount}
          markCount={marksCount} markList={marksList} saveList={savesList} />}
       </div>
