@@ -14,7 +14,7 @@ export default function BarChart(props) {
   }
   const tickLine = {
     lineWidth: 1, // 刻度线宽
-    stroke: '#1890FF', // 刻度线的颜色
+    stroke: '#74CDD6', // 刻度线的颜色
     length: 5, // 刻度线的长度, **原来的属性为 line**,可以通过将值设置为负数来改变其在轴上的方向
   }
   return (

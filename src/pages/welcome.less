@@ -22,11 +22,16 @@
 
 .welcomeBox {
   padding: 24px;
+  width: 100%;
+  height: 100vh;
+  background:linear-gradient(180deg,rgba(17,43,120,1) 0%,rgba(18,23,70,1) 100%);
+  // opacity:0.5;
   .welcomeItem {
     display:flex;
     flex-direction: row;
     width: 100%;
-    background: #ffffff;
+    background:rgba(255,255,255,0.04);
+    color: #ffffff;
     padding: 20px;
     border-radius: 6px;
     margin-bottom: 20px;
@@ -46,9 +51,14 @@
       align-items: center;
       justify-content: center;
     }
+   
   }
+  
 
-  :global {
+  :global { 
+    .ant-statistic-title {
+     color: #ffffff;
+   }
     .ant-carousel .slick-dots-bottom {
       bottom: -12px;
     }
@@ -64,7 +74,8 @@
 }
 
 .welcomeLineChart {
-  background: #ffffff;
+  background:rgba(255,255,255,0.04);
+  color:rgba(255,255,255,1);
   padding: 20px;
   border-radius: 6px;
   height: 650px;
@@ -74,17 +85,18 @@
 }
 
 .welcomeBarChart {
-  background: #ffffff;
+  background:rgba(255,255,255,0.04);
+  color: #ffffff;
   padding: 20px;
   border-radius: 6px;
   height: 650px;
+  overflow-y: auto;
   .rightContent{
-    display: flex;
+    display: flex;  
     flex-direction: row;
     justify-content: space-between;
    .title {
     margin-bottom: 10px;
    }
   }
- 
 }

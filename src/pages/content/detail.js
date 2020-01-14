@@ -14,8 +14,15 @@ const { TextArea } = Input;
 export default class Detail extends Component {
   state = {
      remarkValue: '',
-     radioValue: this.props.detailData.flag,
+     radioValue: null,
    }
+  componentDidMount() {
+      this.setState({
+        radioValue: this.props.detailData.flag,
+        remarkValue: this.props.detailData.remark,
+      })
+  }
+
   onRemarkChange = ({ target: { value } }) => {
     this.setState({ remarkValue: value })
   }
@@ -76,10 +83,10 @@ export default class Detail extends Component {
             <div className={Styles.left}>
               <div className={Styles.name}>{detailData.nickName}</div>
               <div className={Styles.time}>发表于: {moment(detailData.create_time).format('YYYY-MM-DD HH:mm:ss')}</div>
-            </div>
-            <div className={Styles.right}>
-              <div>所属主题: {detailData.name}</div>
+            </div> 
           </div>
+           <div className={Styles.right}>
+              <div>所属主题: {detailData.name}</div>
           </div>
         </div>
         <div className={Styles.content}>
@@ -142,7 +149,7 @@ export default class Detail extends Component {
                <div className={Styles.commentList}>
                 <div className={Styles.commentAll}>全部点赞</div>
                 { markCount > 0 ? markList.map(item =>
-                    <div className={Styles.commentItem}>
+                    <div className={Styles.commentItem} key={item.id}>
                   <div className={Styles.commentTop}>
                     <div className={Styles.commentAvter}>
                       <Avatar src={item.imgUrl} size="default"/>
@@ -172,7 +179,7 @@ export default class Detail extends Component {
                 <div className={Styles.commentList}>
                 <div className={Styles.commentAll}>全部评论</div>
                 { commentCount > 0 ? commentList.map(item =>
-                    <div className={Styles.commentItem}>
+                    <div className={Styles.commentItem} key={item.id}>
                   <div className={Styles.commentTop}>
                     <div className={Styles.commentAvter}>
                       <Avatar src={item.imgUrl} size="default"/>
@@ -206,7 +213,7 @@ export default class Detail extends Component {
                 <div className={Styles.commentList}>
                 <div className={Styles.commentAll}>全部收藏</div>
                 { saveCount > 0 ? saveList.map(item =>
-                    <div className={Styles.commentItem}>
+                    <div className={Styles.commentItem} key={item.id}>
                   <div className={Styles.commentTop}>
                     <div className={Styles.commentAvter}>
                       <Avatar src={item.imgUrl} size="default"/>

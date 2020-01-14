@@ -8,7 +8,7 @@ const Gateway = {};
  */
 Gateway.execute = (path, input = {}) => {
   const headers = {
-    // Authorization: `Bearer ${localStorage.getItem('tokenId')}`,
+    //  Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
   return request(path, { ...input, headers }).then(data =>
      data,

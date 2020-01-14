@@ -83,10 +83,10 @@ export default function GenderChart(props) {
               htmlTemplate={(text, item) => {
                 const isFemale = item.point.sex === '女';
                 const src = isFemale
-                  ? 'https://gw.alipayobjects.com/zos/rmsportal/mweUsJpBWucJRixSfWVP.png'
-                  : 'https://gw.alipayobjects.com/zos/rmsportal/oeCxrAewtedMBYOETCln.png';
+                  ? 'https://kangaroo-app.oss-cn-hangzhou.aliyuncs.com/women%402x.png'
+                  : 'https://kangaroo-app.oss-cn-hangzhou.aliyuncs.com/men%402x.png';
                 const color = isFemale ? COLORS[1] : COLORS[0];
-                const IMG = `<img style="width:15px" src="${src}" /><br/>`;
+                const IMG = `<img style="width:30px" src="${src}" /><br/>`;
                 return `<div style="text-align:center;color:${color}">${IMG}${(
                   text * 100
                 ).toFixed(1)}%</div>`;

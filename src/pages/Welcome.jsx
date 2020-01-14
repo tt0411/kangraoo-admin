@@ -56,7 +56,7 @@ class Welcome extends Component {
                 <Statistic
                   title="在线人数"
                   value={liveCount}
-                  valueStyle={{ color: '#000000', marginTop: '20px', fontSize: '28px' }}
+                  valueStyle={{ color: '#ffffff', marginTop: '20px', fontSize: '28px' }}
                   suffix="人"
                   prefix={<Icon style={{ marginRight: '10px' }} type="user" />}
                 />
@@ -72,7 +72,7 @@ class Welcome extends Component {
                 <Statistic
                   title="总用户"
                   value={totalUser}
-                  valueStyle={{ color: '#000000', marginTop: '20px', fontSize: '28px' }}
+                  valueStyle={{ color: '#ffffff', marginTop: '20px', fontSize: '28px' }}
                   suffix="人"
                   prefix={<Icon style={{ marginRight: '10px' }} type="team" />}
                 />
@@ -88,7 +88,7 @@ class Welcome extends Component {
                 <Statistic
                   title="总主题量"
                   value={totalContentType}
-                  valueStyle={{ color: '#000000', marginTop: '20px', fontSize: '28px' }}
+                  valueStyle={{ color: '#ffffff', marginTop: '20px', fontSize: '28px' }}
                   suffix="个"
                   prefix={<Icon style={{ marginRight: '10px' }} type="profile" />}
                 />
@@ -119,7 +119,7 @@ class Welcome extends Component {
                 <Statistic
                   title="总内容量"
                   value={totalContent}
-                  valueStyle={{ color: '#000000', marginTop: '20px', fontSize: '28px' }}
+                  valueStyle={{ color: '#ffffff', marginTop: '20px', fontSize: '28px' }}
                   suffix="条"
                   prefix={<Icon style={{ marginRight: '10px' }} type="profile" />}
                 />
