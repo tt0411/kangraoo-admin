@@ -50,7 +50,7 @@ class Welcome extends Component {
       <div className={Styles.welcomeBox}>
         <Spin spinning={dataLoading}>
           <Row gutter={16}>
-            <Col xl={6} sm={12} span={24}>
+            <Col xxl={6} xl={12} sm={12}>
               <div className={Styles.welcomeItem}>
               <div className={Styles.totalUser}>
                 <Statistic
@@ -66,7 +66,7 @@ class Welcome extends Component {
                 </div>
               </div>
             </Col>
-            <Col xl={6} sm={12} span={24}>
+            <Col xxl={6} xl={12} sm={12} >
               <div className={Styles.welcomeItem}>
                 <div className={Styles.totalUser}>
                 <Statistic
@@ -82,7 +82,7 @@ class Welcome extends Component {
                 </div>
               </div>
             </Col>
-            <Col xl={6} sm={12} span={24}>
+            <Col xxl={6} xl={12} sm={12} >
               <div className={Styles.welcomeItem}>
               <div className={Styles.totalUser}>
                 <Statistic
@@ -113,7 +113,7 @@ class Welcome extends Component {
                 </div>
               </div>
             </Col>
-            <Col xl={6} sm={12} span={24}>
+            <Col xxl={6} xl={12} sm={12}>
               <div className={Styles.welcomeItem}>
               <div className={Styles.total}>
                 <Statistic
@@ -148,7 +148,7 @@ class Welcome extends Component {
         </Spin>
         <Spin spinning={chartLoading}>
             <Row gutter={16}>
-              <Col xxl={18} span={24}>
+              <Col xxl={18} xl={18}>
                 <div className={Styles.welcomeLineChart}>
                   <div className={Styles.title}>近七天新增用户统计图</div>
                   {sevenDaysData && sevenDaysData.length > 0 ? (
@@ -158,7 +158,7 @@ class Welcome extends Component {
                   )}
                 </div>
               </Col>
-              <Col xxl={6} span={24}>
+              <Col xxl={6} xl={6}>
                 <div className={Styles.welcomeBarChart}>
                   <div className={Styles.rightContent}>
                   <div className={Styles.title}>今日用户活跃排名</div>
