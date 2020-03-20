@@ -7,8 +7,8 @@ export function isStopUser(params) {
 }
 
 // 重置测试用户密码
-export function resetPwd(data) {
-  return Gateway.put(`${Config.Gateway}/user/resetPwd`, data)
+export function resetPwd(params) {
+  return Gateway.put(`${Config.Gateway}/user/resetPwd`, params)
 }
 
 // 添加测试用户

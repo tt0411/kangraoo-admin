@@ -17,8 +17,8 @@ Gateway.execute = (path, input = {}) => {
 Gateway.get = (path, params = {}, silence = false) => Gateway.execute(path, { params }, silence);
 Gateway.post = (path, data = {}, silence = false) =>
   Gateway.execute(path, { method: 'post', data }, silence);
-Gateway.put = (path, data = {}, silence = false) =>
-  Gateway.execute(path, { method: 'put', data }, silence);
+Gateway.put = (path, params = {}, silence = false) =>
+  Gateway.execute(path, { method: 'put', params }, silence);
 Gateway.del = (path, data = {}, silence = false) =>
   Gateway.execute(path, { method: 'delete', data }, silence);
 Gateway.down = (path, params = {}, silence = true) =>
