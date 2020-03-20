@@ -23,6 +23,19 @@ class Welcome extends Component {
     });
   }
 
+  toUser = () => {
+    this.props.history.push("/users");  
+  }
+
+  toTheme = () => {
+    this.props.history.push("/type");  
+  }
+
+  toContent = () => {
+    this.props.history.push("/content");  
+  }
+
+
   render() {
     const {
       totalUser,
@@ -50,7 +63,7 @@ class Welcome extends Component {
       <div className={Styles.welcomeBox}>
         <Spin spinning={dataLoading}>
           <Row gutter={16}>
-            <Col xxl={6} xl={12} sm={12}>
+            <Col xxl={6} xl={12} sm={12} onClick={this.toUser}>
               <div className={Styles.welcomeItem}>
               <div className={Styles.totalUser}>
                 <Statistic
@@ -66,7 +79,7 @@ class Welcome extends Component {
                 </div>
               </div>
             </Col>
-            <Col xxl={6} xl={12} sm={12} >
+            <Col xxl={6} xl={12} sm={12} onClick={this.toUser}>
               <div className={Styles.welcomeItem}>
                 <div className={Styles.totalUser}>
                 <Statistic
@@ -82,7 +95,7 @@ class Welcome extends Component {
                 </div>
               </div>
             </Col>
-            <Col xxl={6} xl={12} sm={12} >
+            <Col xxl={6} xl={12} sm={12} onClick={this.toTheme}>
               <div className={Styles.welcomeItem}>
               <div className={Styles.totalUser}>
                 <Statistic
@@ -113,7 +126,7 @@ class Welcome extends Component {
                 </div>
               </div>
             </Col>
-            <Col xxl={6} xl={12} sm={12}>
+            <Col xxl={6} xl={12} sm={12} onClick={this.toContent}>
               <div className={Styles.welcomeItem}>
               <div className={Styles.total}>
                 <Statistic
@@ -148,7 +161,7 @@ class Welcome extends Component {
         </Spin>
         <Spin spinning={chartLoading}>
             <Row gutter={16}>
-              <Col xxl={18} xl={18}>
+              <Col xxl={18} xl={18} sm={18}>
                 <div className={Styles.welcomeLineChart}>
                   <div className={Styles.title}>近七天新增用户统计图</div>
                   {sevenDaysData && sevenDaysData.length > 0 ? (
@@ -158,7 +171,7 @@ class Welcome extends Component {
                   )}
                 </div>
               </Col>
-              <Col xxl={6} xl={6}>
+              <Col xxl={6} xl={6} sm={6}>
                 <div className={Styles.welcomeBarChart}>
                   <div className={Styles.rightContent}>
                   <div className={Styles.title}>今日用户活跃排名</div>
